@@ -14,7 +14,7 @@ function init() {
 
     camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight);
     light = new THREE.AmbientLight(0xffffff);
-    camera.position.z = 30;
+    camera.position.z = 24;
     scene.add(camera);
     scene.add(light)
 
@@ -22,7 +22,13 @@ function init() {
     grid.position.y = -5
     createCubeWithText(5, 5, 0, "Bonjour !")
     createCube(5, 5, 10)
+
     createCube(15, 35, 0)
+
+    createCube(-35, -25, 0)
+
+    createCube(35, -25, 0)
+    createCube(35, -25, 10)
     scene.add(grid);
 
     renderer = new THREE.WebGLRenderer();
