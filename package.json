@@ -1,0 +1,15 @@
+{
+  "name": "three",
+  "version": "1.0.0",
+  "main": "script.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "camera-controls": "^2.9.0",
+    "three": "^0.169.0"
+  }
+}
