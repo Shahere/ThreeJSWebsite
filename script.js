@@ -8,6 +8,7 @@ let firstRender = true;
 let div1 = document.getElementsByClassName('div1')[0]
 let contactMe = document.getElementsByClassName('contactme')[0]
 contactMe.addEventListener('click', () => {
+    cameraControls.reset(true)
     const targetPosition = new THREE.Vector3(-35, 0, -45); 
     const lookAtTarget = new THREE.Vector3(-35, 0, -25); 
 
@@ -28,6 +29,7 @@ contactMe.addEventListener('click', () => {
 
 let me = document.getElementsByClassName('me')[0]
 me.addEventListener('click', () => {
+    cameraControls.reset(true)
     const targetPosition = new THREE.Vector3(0, 0, 30); 
     const lookAtTarget = new THREE.Vector3(5, 5, 5); 
 
