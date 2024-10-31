@@ -8,46 +8,31 @@ let firstRender = true;
 let div1 = document.getElementsByClassName('div1')[0]
 let contactMe = document.getElementsByClassName('contactme')[0]
 contactMe.addEventListener('click', () => {
-    cameraControls.reset(true)
-    const targetPosition = new THREE.Vector3(-35, 0, -45); 
-    const lookAtTarget = new THREE.Vector3(-35, 0, -25); 
-
-    const currentPosition = cameraControls.camera.position.clone();
-    const currentTarget = cameraControls.getTarget();
-    const positionCloseEnough = currentPosition.distanceTo(targetPosition) < 1;
-    const targetCloseEnough = currentTarget.distanceTo(lookAtTarget) < 1;
-
-    if (!positionCloseEnough || !targetCloseEnough) {
-        cameraControls.setLookAt(
-            targetPosition.x, targetPosition.y, targetPosition.z, 
-            lookAtTarget.x, lookAtTarget.y, lookAtTarget.z,      
-            true // Smooth animation
-        );
-        animate();
-    }
+    const targetPosition = new THREE.Vector3(-35, 0, -45);
+    const lookAtTarget = new THREE.Vector3(-35, 0, -25);
+    moveTo(targetPosition, lookAtTarget)
 });
 
 let me = document.getElementsByClassName('me')[0]
 me.addEventListener('click', () => {
-    cameraControls.reset(true)
-    const targetPosition = new THREE.Vector3(0, 0, 30); 
-    const lookAtTarget = new THREE.Vector3(5, 5, 5); 
-
-    const currentPosition = cameraControls.camera.position.clone();
-    const currentTarget = cameraControls.getTarget();
-    const positionCloseEnough = currentPosition.distanceTo(targetPosition) < 1;
-    const targetCloseEnough = currentTarget.distanceTo(lookAtTarget) < 1;
-
-    if (!positionCloseEnough || !targetCloseEnough) {
-        cameraControls.setLookAt(
-            targetPosition.x, targetPosition.y, targetPosition.z, 
-            lookAtTarget.x, lookAtTarget.y, lookAtTarget.z,      
-            true // Smooth animation
-        );
-        animate();
-    }
+    const targetPosition = new THREE.Vector3(0, 0, 30);
+    const lookAtTarget = new THREE.Vector3(5, 5, 5);
+    moveTo(targetPosition, lookAtTarget)
 });
 
+let experience = document.getElementsByClassName('experience')[0]
+experience.addEventListener('click', () => {
+    const targetPosition = new THREE.Vector3(20, 0, -5);
+    const lookAtTarget = new THREE.Vector3(35, 5, -25);
+    moveTo(targetPosition, lookAtTarget)
+});
+
+let graduation = document.getElementsByClassName('graduation')[0]
+graduation.addEventListener('click', () => {
+    const targetPosition = new THREE.Vector3(0, 0, 50);
+    const lookAtTarget = new THREE.Vector3(15, 0, 35);
+    moveTo(targetPosition, lookAtTarget)
+});
 
 function init() {
     clock = new THREE.Clock();
@@ -55,21 +40,20 @@ function init() {
 
     camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight);
     light = new THREE.AmbientLight(0xffffff);
-    camera.position.z = 24;
     scene.add(camera);
     scene.add(light)
 
     var grid = new THREE.GridHelper(100, 10);
     grid.position.y = -5
-    createCubeWithText(5, 5, 0, "Bonjour !")
-    createCube(5, 5, 10)
+    createCubeWithText(5, 0, 5, "Bonjour !")
+    createCube(5, 10, 5)
 
-    createCubeWithText(15, 35, 0, "Graduation")
+    createCubeWithText(15, 0, 35, "Graduation")
 
-    createCubeWithText(-35, -25, 0, "Contact me")
+    createCubeWithText(-35, 0, -25, "Contact me")
 
-    createCube(35, -25, 0)
-    createCubeWithText(35, -25, 10, "Experiences")
+    createCube(35, 0, -25)
+    createCubeWithText(35, 10, -25, "Experiences")
     scene.add(grid);
 
     renderer = new THREE.WebGLRenderer();
@@ -79,7 +63,9 @@ function init() {
     cameraControls = new CameraControls(camera, renderer.domElement);
     cameraControls.mouseButtons.right = CameraControls.ACTION.OFFSET;
     cameraControls.setBoundary(null);
-    console.log(camera.position)
+    const targetPosition = new THREE.Vector3(0, 0, 30);
+    const lookAtTarget = new THREE.Vector3(5, 5, 5);
+    moveTo(targetPosition, lookAtTarget)
 }
 
 function animate() {
@@ -99,7 +85,7 @@ function render() {
 }
 
 
-function createCube(x, z, y) {
+function createCube(x, y, z) {
     geometry = new THREE.BoxGeometry(10, 10, 10);
     material = new THREE.MeshLambertMaterial()
 
@@ -109,7 +95,7 @@ function createCube(x, z, y) {
     scene.add(mesh)
 }
 
-function createCubeWithText(x, z, y, text) {
+function createCubeWithText(x, y, z, text) {
     const canvas = document.createElement('canvas');
     const context = canvas.getContext('2d');
     canvas.width = 256;
@@ -139,6 +125,16 @@ function createCubeWithText(x, z, y, text) {
 
     mesh.position.set(x, y, z);
     scene.add(mesh);
+}
+
+function moveTo(targetPosition, lookAtTarget) {
+    cameraControls.reset(true)
+    cameraControls.setLookAt(
+        targetPosition.x, targetPosition.y, targetPosition.z,
+        lookAtTarget.x, lookAtTarget.y, lookAtTarget.z,
+        true // Smooth animation
+    );
+    animate();
 }
 
 
