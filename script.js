@@ -38,7 +38,7 @@ function init() {
     clock = new THREE.Clock();
     scene = new THREE.Scene();
 
-    camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight);
+    camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight);
     light = new THREE.AmbientLight(0xffffff);
     scene.add(camera);
     scene.add(light)

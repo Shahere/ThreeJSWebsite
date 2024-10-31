@@ -15,8 +15,14 @@
     z-index: 99;
     background-color: transparent;
     padding: 4%;
-    width: 30%;
+    padding-top: 0;
+    width: 20%;
     height: 100%;
+
+}
+
+h1 {
+    user-select: none;
 }
 
 .container {
@@ -26,11 +32,6 @@
     justify-content: start;
     width: 100%;
     background-color: transparent;
-}
-
-h1 {
-    margin-bottom: 25%;
-    user-select: none;
 }
 
 body {
