@@ -6,7 +6,46 @@ var camera, scene, renderer, geometry, material, mesh, clock, cameraControls, li
 let firstRender = true;
 
 let div1 = document.getElementsByClassName('div1')[0]
-let div2 = document.getElementsByClassName('div2')[0]
+let contactMe = document.getElementsByClassName('contactme')[0]
+contactMe.addEventListener('click', () => {
+    const targetPosition = new THREE.Vector3(-35, 0, -45); 
+    const lookAtTarget = new THREE.Vector3(-35, 0, -25); 
+
+    const currentPosition = cameraControls.camera.position.clone();
+    const currentTarget = cameraControls.getTarget();
+    const positionCloseEnough = currentPosition.distanceTo(targetPosition) < 1;
+    const targetCloseEnough = currentTarget.distanceTo(lookAtTarget) < 1;
+
+    if (!positionCloseEnough || !targetCloseEnough) {
+        cameraControls.setLookAt(
+            targetPosition.x, targetPosition.y, targetPosition.z, 
+            lookAtTarget.x, lookAtTarget.y, lookAtTarget.z,      
+            true // Smooth animation
+        );
+        animate();
+    }
+});
+
+let me = document.getElementsByClassName('me')[0]
+me.addEventListener('click', () => {
+    const targetPosition = new THREE.Vector3(0, 0, 30); 
+    const lookAtTarget = new THREE.Vector3(5, 5, 5); 
+
+    const currentPosition = cameraControls.camera.position.clone();
+    const currentTarget = cameraControls.getTarget();
+    const positionCloseEnough = currentPosition.distanceTo(targetPosition) < 1;
+    const targetCloseEnough = currentTarget.distanceTo(lookAtTarget) < 1;
+
+    if (!positionCloseEnough || !targetCloseEnough) {
+        cameraControls.setLookAt(
+            targetPosition.x, targetPosition.y, targetPosition.z, 
+            lookAtTarget.x, lookAtTarget.y, lookAtTarget.z,      
+            true // Smooth animation
+        );
+        animate();
+    }
+});
+
 
 function init() {
     clock = new THREE.Clock();
@@ -23,12 +62,12 @@ function init() {
     createCubeWithText(5, 5, 0, "Bonjour !")
     createCube(5, 5, 10)
 
-    createCube(15, 35, 0)
+    createCubeWithText(15, 35, 0, "Graduation")
 
-    createCube(-35, -25, 0)
+    createCubeWithText(-35, -25, 0, "Contact me")
 
     createCube(35, -25, 0)
-    createCube(35, -25, 10)
+    createCubeWithText(35, -25, 10, "Experiences")
     scene.add(grid);
 
     renderer = new THREE.WebGLRenderer();
@@ -37,11 +76,11 @@ function init() {
     div1.appendChild(renderer.domElement);
     cameraControls = new CameraControls(camera, renderer.domElement);
     cameraControls.mouseButtons.right = CameraControls.ACTION.OFFSET;
-
+    cameraControls.setBoundary(null);
+    console.log(camera.position)
 }
 
 function animate() {
-
     requestAnimationFrame(animate);
     render();
 
