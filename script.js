@@ -1,5 +1,7 @@
 import * as THREE from "three"
 import CameraControls from "camera-controls";
+import CubeContact from "./cubes/contactme";
+
 CameraControls.install({ THREE: THREE });
 var camera, scene, renderer, geometry, material, mesh, clock, cameraControls, light;
 
@@ -50,7 +52,8 @@ function init() {
 
     createCubeWithText(15, 0, 35, "Graduation")
 
-    createCubeWithText(-35, 0, -25, "Contact me")
+    let cubeContact = new CubeContact(-35, 0, -25)
+    cubeContact.addToScene(scene)
 
     createCube(35, 0, -25)
     createCubeWithText(35, 10, -25, "Experiences")
