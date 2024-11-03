@@ -1,6 +1,8 @@
 import * as THREE from "three"
 import CameraControls from "camera-controls";
 import CubeContact from "./cubes/contactme";
+import CubeExp from "./cubes/CubeExp";
+import CubeExp2 from "./cubes/CubeExp2";
 
 CameraControls.install({ THREE: THREE });
 var camera, scene, renderer, geometry, material, mesh, clock, cameraControls, light;
@@ -47,6 +49,7 @@ function init() {
 
     var grid = new THREE.GridHelper(100, 10);
     grid.position.y = -5
+    scene.add(grid);
     createCubeWithText(5, 0, 5, "Bonjour !")
     createCube(5, 10, 5)
 
@@ -55,9 +58,10 @@ function init() {
     let cubeContact = new CubeContact(-35, 0, -25)
     cubeContact.addToScene(scene)
 
-    createCube(35, 0, -25)
-    createCubeWithText(35, 10, -25, "Experiences")
-    scene.add(grid);
+    let cubeExp1 = new CubeExp(35, 0, -25)
+    let cubeExp2 = new CubeExp2(35, 10, -25)
+    cubeExp1.addToScene(scene)
+    cubeExp2.addToScene(scene)
 
     renderer = new THREE.WebGLRenderer();
     renderer.setSize(window.innerWidth, window.innerHeight);
