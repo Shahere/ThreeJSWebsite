@@ -3,6 +3,9 @@ import CameraControls from "camera-controls";
 import CubeContact from "./cubes/contactme";
 import CubeExp from "./cubes/CubeExp";
 import CubeExp2 from "./cubes/CubeExp2";
+import CubeHello from "./cubes/CubeHello";
+import CubeGraduation from "./cubes/CubeGraduation";
+import Cube from "./cubes/Cube";
 
 CameraControls.install({ THREE: THREE });
 var camera,
@@ -68,10 +71,14 @@ function init() {
   scene.add(grid);
   grid.position.set(0, -5, 0);
 
-  createCubeWithText(5, 0, 5, "Bonjour !");
-  createCube(5, 10, 5);
+  let cubeHello = new CubeHello(5, 0, 5);
+  cubeHello.addToScene(scene);
 
-  createCubeWithText(15, 0, 35, "Graduation");
+  let randomCube1 = new Cube(5, 10, 5);
+  randomCube1.addToScene(scene);
+
+  let graduationCube = new CubeGraduation(15, 0, 35);
+  graduationCube.addToScene(scene);
 
   let cubeContact = new CubeContact(-35, 0, -25);
   cubeContact.addToScene(scene);
@@ -106,48 +113,6 @@ function render() {
     renderer.render(scene, camera);
     firstRender = false;
   }
-}
-
-function createCube(x, y, z) {
-  geometry = new THREE.BoxGeometry(10, 10, 10);
-  material = new THREE.MeshLambertMaterial();
-
-  mesh = new THREE.Mesh(geometry, material);
-  mesh.position.set(x, y, z);
-
-  scene.add(mesh);
-}
-
-function createCubeWithText(x, y, z, text) {
-  const canvas = document.createElement("canvas");
-  const context = canvas.getContext("2d");
-  canvas.width = 256;
-  canvas.height = 256;
-
-  context.fillStyle = "#ffffff"; //BG color
-  context.fillRect(0, 0, canvas.width, canvas.height);
-  context.fillStyle = "#000000"; //TEXT color
-  context.font = "40px Arial";
-  context.textAlign = "center";
-  context.textBaseline = "middle";
-  context.fillText(text, canvas.width / 2, canvas.height / 2); // Draw text in the center
-
-  const texture = new THREE.CanvasTexture(canvas);
-
-  const materials = [
-    new THREE.MeshLambertMaterial({ color: 0xffffff }), // Right face
-    new THREE.MeshLambertMaterial({ color: 0xffffff }), // Left face
-    new THREE.MeshLambertMaterial({ color: 0xffffff }), // Top face
-    new THREE.MeshLambertMaterial({ color: 0xffffff }), // Bottom face
-    new THREE.MeshLambertMaterial({ map: texture }), // Front face (with text)
-    new THREE.MeshLambertMaterial({ color: 0xffffff }), // Back face
-  ];
-
-  const geometry = new THREE.BoxGeometry(10, 10, 10);
-  const mesh = new THREE.Mesh(geometry, materials);
-
-  mesh.position.set(x, y, z);
-  scene.add(mesh);
 }
 
 function moveTo(targetPosition, lookAtTarget) {
