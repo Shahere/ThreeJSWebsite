@@ -18,7 +18,8 @@
     padding-top: 0;
     width: 20%;
     height: 100%;
-
+    text-align: center;
+    margin-top: 5%;
 }
 
 h1 {
@@ -39,4 +40,43 @@ body {
     margin: 0;
     overflow-y: hidden;
     overflow-x: hidden;
+}
+
+.box {
+    position: relative;
+    margin: 0;
+}
+
+.btn-border-4::after,
+.btn-border-4::before {
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    transition: .5s;
+}
+
+.btn-border-4::after {
+    top: -9px;
+    left: -9px;
+    border-top: 3px solid transparent;
+    border-left: 3px solid transparent;
+}
+
+.btn-border-4::before {
+    bottom: -9px;
+    right: -9px;
+    border-bottom: 3px solid transparent;
+    border-right: 3px solid transparent;
+}
+
+.btn-border-4:hover {
+    color: #ffffff;
+}
+
+.btn-border-4:hover::after,
+.btn-border-4:hover::before {
+    width: calc(100% + 15px);
+    height: calc(100% + 15px);
+    border-color: #ffffff;
 }
