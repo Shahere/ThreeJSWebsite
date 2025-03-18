@@ -7,16 +7,17 @@ import CubeHello from "./cubes/CubeHello";
 import CubeGraduation from "./cubes/CubeGraduation";
 import Cube from "./cubes/Cube";
 
+function mathRandom(num = 8) {
+  var numValue = -Math.random() * num + Math.random() * num;
+  return numValue;
+}
+
+const raycaster = new THREE.Raycaster();
+const pointer = new THREE.Vector2();
+
 CameraControls.install({ THREE: THREE });
-var camera,
-  scene,
-  renderer,
-  geometry,
-  material,
-  mesh,
-  clock,
-  cameraControls,
-  light;
+let camera, scene, renderer, clock, cameraControls, light;
+let city;
 let firstRender = true;
 
 let div1 = document.getElementsByClassName("div1")[0];
@@ -51,6 +52,8 @@ graduation.addEventListener("click", () => {
 function init() {
   clock = new THREE.Clock();
   scene = new THREE.Scene();
+  city = new THREE.Object3D();
+  setLights();
 
   camera = new THREE.PerspectiveCamera(
     60,
@@ -61,12 +64,13 @@ function init() {
   scene.add(light);
 
   // --------------------------------------- FOG ---------------------------------------
-  var setcolor = 0x000000;
+  var setcolor = 0xf02050;
 
   scene.background = new THREE.Color(setcolor);
   scene.fog = new THREE.Fog(setcolor, 0, 150);
   // --------------------------------------- FOG ---------------------------------------
 
+  // ------------------------------------ SOME FEATURES ----------------------------------
   var grid = new THREE.GridHelper(1000, 100);
   scene.add(grid);
   grid.position.set(0, -5, 0);
@@ -88,7 +92,7 @@ function init() {
   cubeExp1.addToScene(scene);
   cubeExp2.addToScene(scene);
 
-  renderer = new THREE.WebGLRenderer();
+  renderer = new THREE.WebGLRenderer({ antialias: true });
   renderer.setSize(window.innerWidth, window.innerHeight);
 
   div1.appendChild(renderer.domElement);
@@ -128,6 +132,35 @@ function moveTo(targetPosition, lookAtTarget) {
   );
   animate();
 }
+
+function setLights() {
+  //3 points lights
+  var ambientLight = new THREE.AmbientLight(0xffffff, 4);
+  var lightFront = new THREE.SpotLight(0xffffff, 20, 10);
+  var lightBack = new THREE.PointLight(0xffffff, 0.5);
+
+  var spotLightHelper = new THREE.SpotLightHelper(lightFront);
+  //scene.add( spotLightHelper );
+
+  lightFront.rotation.x = (45 * Math.PI) / 180;
+  lightFront.rotation.z = (-45 * Math.PI) / 180;
+  lightFront.position.set(5, 5, 5);
+  lightFront.castShadow = true;
+  lightFront.shadow.mapSize.width = 6000;
+  lightFront.shadow.mapSize.height = lightFront.shadow.mapSize.width;
+  lightFront.penumbra = 0.1;
+  lightBack.position.set(0, 6, 0);
+
+  scene.add(ambientLight);
+  scene.add(lightFront);
+  scene.add(lightBack);
+}
+
+function onPointerMove(event) {
+  pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
+  pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
+}
+window.addEventListener("pointermove", onPointerMove);
 
 init();
 animate();

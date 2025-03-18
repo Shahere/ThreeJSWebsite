@@ -53,7 +53,7 @@ body {
     content: "";
     width: 0;
     height: 0;
-    transition: .5s;
+    transition: .4s;
 }
 
 .btn-border-4::after {

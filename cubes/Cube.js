@@ -9,19 +9,41 @@ export default class Cube {
     this.front = 4;
     this.back = 5;
 
+    var material = new THREE.MeshStandardMaterial({
+      color: this.setTintColor(),
+      wireframe: false,
+      //opacity:0.9,
+      //transparent: true,
+      //roughness: 0.3,
+      //metalness: 1,
+      shading: THREE.SmoothShading,
+      //shading:THREE.FlatShading,
+      side: THREE.DoubleSide,
+    });
+
     this.materials = [
-      new THREE.MeshLambertMaterial({ color: 0xffffff }), // Right face
-      new THREE.MeshLambertMaterial({ color: 0xffffff }), // Left face
-      new THREE.MeshLambertMaterial({ color: 0xffffff }), // Top face
-      new THREE.MeshLambertMaterial({ color: 0xffffff }), // Bottom face
-      new THREE.MeshLambertMaterial({ color: 0xffffff }), // Front face
-      new THREE.MeshLambertMaterial({ color: 0xffffff }), // Back face
+      material,
+      material, // Left face
+      material, // Top face
+      material, // Bottom face
+      material, // Front face
+      material, // Back face
     ];
 
     this.geometry = new THREE.BoxGeometry(10, 10, 10);
     this.mesh = new THREE.Mesh(this.geometry, this.materials);
 
     this.mesh.position.set(x, y, z);
+  }
+
+  setTintColor() {
+    let setColor = 0x000000;
+    return setColor;
+  }
+
+  setColorText() {
+    let setColor = "#ffffff";
+    return setColor;
   }
 
   createTexture(texts, size) {
@@ -31,18 +53,16 @@ export default class Cube {
     canvas.width = 256;
     canvas.height = 256;
     let distance = canvas.width / (nbText + 1);
-    console.log(nbText);
 
-    context.fillStyle = "#ffffff"; //BG color
+    context.fillStyle = this.setTintColor(); //BG color
     context.fillRect(0, 0, canvas.width, canvas.height);
-    context.fillStyle = "#000000"; //TEXT color
+    context.fillStyle = this.setColorText(); //TEXT color
     context.font = size + " Arial";
     context.textAlign = "center";
     context.textBaseline = "middle";
 
     for (let i = 0; i < nbText; i++) {
       const text = texts[i];
-      console.log(distance * (i + 1));
       context.fillText(text, canvas.width / 2, distance * (i + 1));
     }
     const texture = new THREE.CanvasTexture(canvas);
