@@ -12,12 +12,6 @@ export default class Cube {
     var material = new THREE.MeshStandardMaterial({
       color: this.setTintColor(),
       wireframe: false,
-      //opacity:0.9,
-      //transparent: true,
-      //roughness: 0.3,
-      //metalness: 1,
-      shading: THREE.SmoothShading,
-      //shading:THREE.FlatShading,
       side: THREE.DoubleSide,
     });
 
@@ -32,6 +26,9 @@ export default class Cube {
 
     this.geometry = new THREE.BoxGeometry(10, 10, 10);
     this.mesh = new THREE.Mesh(this.geometry, this.materials);
+
+    this.mesh.castShadow = true;
+    this.mesh.receiveShadow = true;
 
     this.mesh.position.set(x, y, z);
   }

@@ -7,17 +7,23 @@ import CubeHello from "./cubes/CubeHello";
 import CubeGraduation from "./cubes/CubeGraduation";
 import Cube from "./cubes/Cube";
 
+var setcolor = 0xf02050;
+
 function mathRandom(num = 8) {
   var numValue = -Math.random() * num + Math.random() * num;
   return numValue;
 }
 
-const raycaster = new THREE.Raycaster();
-const pointer = new THREE.Vector2();
+let scene = new THREE.Scene();
+let city = new THREE.Object3D();
+let smoke = new THREE.Object3D();
+let town = new THREE.Object3D();
+
+scene.background = new THREE.Color(setcolor);
+scene.fog = new THREE.Fog(setcolor, 10, 16);
 
 CameraControls.install({ THREE: THREE });
-let camera, scene, renderer, clock, cameraControls, light;
-let city;
+let camera, renderer, clock, cameraControls, light;
 let firstRender = true;
 
 let div1 = document.getElementsByClassName("div1")[0];
@@ -51,17 +57,13 @@ graduation.addEventListener("click", () => {
 
 function init() {
   clock = new THREE.Clock();
-  scene = new THREE.Scene();
-  city = new THREE.Object3D();
   setLights();
 
   camera = new THREE.PerspectiveCamera(
     60,
     window.innerWidth / window.innerHeight
   );
-  light = new THREE.AmbientLight(0xffffff);
   scene.add(camera);
-  scene.add(light);
 
   // --------------------------------------- FOG ---------------------------------------
   var setcolor = 0xf02050;
@@ -155,12 +157,6 @@ function setLights() {
   scene.add(lightFront);
   scene.add(lightBack);
 }
-
-function onPointerMove(event) {
-  pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
-  pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
-}
-window.addEventListener("pointermove", onPointerMove);
 
 init();
 animate();
