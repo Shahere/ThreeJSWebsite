@@ -3,6 +3,44 @@ import CameraControls from "camera-controls";
 import cubePosition from "./cubesPosition";
 
 CameraControls.install({ THREE: THREE });
+
+//----------------------------------------------------------------- BUTTON functions
+
+let contactMe = document.getElementsByClassName("contactme")[0];
+contactMe.addEventListener("click", () => {
+  const targetPosition = new THREE.Vector3(0, 5, -2.5);
+  const lookAtTarget = new THREE.Vector3(3, 0, 3);
+  moveTo(targetPosition, lookAtTarget);
+});
+
+let me = document.getElementsByClassName("me")[0];
+me.addEventListener("click", () => {
+  const targetPosition = new THREE.Vector3(0, 10, 30);
+  const lookAtTarget = new THREE.Vector3(0, 0, 0);
+  moveTo(targetPosition, lookAtTarget);
+});
+
+let experience = document.getElementsByClassName("experience")[0];
+experience.addEventListener("click", () => {
+  const targetPosition = new THREE.Vector3(20, 0, -5);
+  const lookAtTarget = new THREE.Vector3(0, 0, 50);
+  moveTo(targetPosition, lookAtTarget);
+});
+
+let graduation = document.getElementsByClassName("graduation")[0];
+graduation.addEventListener("click", () => {
+  const targetPosition = new THREE.Vector3(0, 0, 50);
+  const lookAtTarget = new THREE.Vector3(15, 50, 35);
+  moveTo(targetPosition, lookAtTarget);
+});
+
+let reset = document.getElementsByClassName("reset")[0];
+reset.addEventListener("click", () => {
+  const targetPosition = new THREE.Vector3(0, 10, 30);
+  const lookAtTarget = new THREE.Vector3(0, 0, 0);
+  moveTo(targetPosition, lookAtTarget);
+});
+
 //----------------------------------------------------------------- BASIC parameters
 var renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
@@ -34,8 +72,6 @@ var camera = new THREE.PerspectiveCamera(
   500
 );
 
-camera.position.set(0, 2, 14);
-
 var scene = new THREE.Scene();
 var city = new THREE.Object3D();
 var smoke = new THREE.Object3D();
@@ -43,8 +79,7 @@ var town = new THREE.Object3D();
 let cameraControls;
 let clock;
 
-var createCarPos = true;
-var uSpeed = 0.001;
+var createCarPos = true; // vertical et horizontal cars
 
 //----------------------------------------------------------------- FOG background
 
@@ -113,14 +148,11 @@ function init() {
     var cubeWidth = 0.9;
     cube.scale.x = cube.scale.z = cubeWidth + mathRandom(1 - cubeWidth);
     //cube.position.y = cube.scale.y / 2;
+    // Ligne interessante, quand j'ai essayé de mettre les object3D à la moitié, enfaite ils le sont deja...
     cube.position.x = x;
     cube.position.z = z;
 
-    floor.position.set(
-      cube.position.x,
-      0 /*floor.scale.y / 2*/,
-      cube.position.z
-    );
+    floor.position.set(cube.position.x, 0, cube.position.z);
 
     town.add(floor);
     town.add(cube);
@@ -134,7 +166,7 @@ function init() {
   var gparticular = new THREE.CircleGeometry(0.01, 3);
   var aparticular = 5;
 
-  for (var h = 1; h < 300; h++) {
+  for (var h = 1; h < 400; h++) {
     var particular = new THREE.Mesh(gparticular, gmaterial);
     particular.position.set(
       mathRandom(aparticular),
@@ -158,13 +190,15 @@ function init() {
   pelement.rotation.x = (-90 * Math.PI) / 180;
   pelement.position.y = -0.001;
   pelement.receiveShadow = true;
-  //pelement.material.emissive.setHex(0xFFFFFF + Math.random() * 100000);
 
   city.add(pelement);
 
   cameraControls = new CameraControls(camera, renderer.domElement);
   cameraControls.mouseButtons.right = CameraControls.ACTION.OFFSET;
   cameraControls.setBoundary(null);
+  const targetPosition = new THREE.Vector3(0, 2, 14);
+  const lookAtTarget = new THREE.Vector3(0, 0, 0);
+  moveTo(targetPosition, lookAtTarget);
 }
 
 //----------------------------------------------------------------- MOUSE function
@@ -199,8 +233,6 @@ city.add(town);
 var gridHelper = new THREE.GridHelper(60, 120, 0xff0000, 0x000000);
 city.add(gridHelper);
 
-//----------------------------------------------------------------- CAR world
-var generateCar = function () {};
 //----------------------------------------------------------------- LINES world
 
 var createCars = function (cScale = 2, cPos = 20, cColor = 0xffff00) {
@@ -213,6 +245,7 @@ var createCars = function (cScale = 2, cPos = 20, cColor = 0xffff00) {
   var cAmp = 3;
 
   if (createCarPos) {
+    //vertical
     createCarPos = false;
     cElem.position.x = -cPos;
     cElem.position.z = mathRandom(cAmp);
@@ -224,12 +257,13 @@ var createCars = function (cScale = 2, cPos = 20, cColor = 0xffff00) {
       delay: mathRandom(3),
     });
   } else {
+    //Horizontal
     createCarPos = true;
     cElem.position.x = mathRandom(cAmp);
     cElem.position.z = -cPos;
     cElem.rotation.y = (90 * Math.PI) / 180;
 
-    TweenMax.to(cElem.position, 5, {
+    TweenMax.to(cElem.position, 4, {
       z: cPos,
       repeat: -1,
       yoyo: true,
@@ -244,7 +278,7 @@ var createCars = function (cScale = 2, cPos = 20, cColor = 0xffff00) {
 };
 
 var generateLines = function () {
-  for (var i = 0; i < 60; i++) {
+  for (var i = 0; i < 70; i++) {
     createCars(0.1, 20);
   }
 };
@@ -268,12 +302,11 @@ var animate = function () {
   smoke.rotation.y += 0.01;
   smoke.rotation.x += 0.01;
 
-  camera.lookAt(city.position);
   renderer.render(scene, camera);
 };
 
 function moveTo(targetPosition, lookAtTarget) {
-  cameraControls.reset(true);
+  //cameraControls.reset(true);
   cameraControls.setLookAt(
     targetPosition.x,
     targetPosition.y,
@@ -285,43 +318,6 @@ function moveTo(targetPosition, lookAtTarget) {
   );
   animate();
 }
-
-//----------------------------------------------------------------- BUTTON functions
-
-let contactMe = document.getElementsByClassName("contactme")[0];
-contactMe.addEventListener("click", () => {
-  const targetPosition = new THREE.Vector3(0, 10, 5);
-  const lookAtTarget = new THREE.Vector3(5, 10, 5);
-  moveTo(targetPosition, lookAtTarget);
-});
-
-let me = document.getElementsByClassName("me")[0];
-me.addEventListener("click", () => {
-  const targetPosition = new THREE.Vector3(0, 10, 30);
-  const lookAtTarget = new THREE.Vector3(5, 10, 5);
-  moveTo(targetPosition, lookAtTarget);
-});
-
-let experience = document.getElementsByClassName("experience")[0];
-experience.addEventListener("click", () => {
-  const targetPosition = new THREE.Vector3(20, 0, -5);
-  const lookAtTarget = new THREE.Vector3(35, 5, -25);
-  moveTo(targetPosition, lookAtTarget);
-});
-
-let graduation = document.getElementsByClassName("graduation")[0];
-graduation.addEventListener("click", () => {
-  const targetPosition = new THREE.Vector3(0, 0, 50);
-  const lookAtTarget = new THREE.Vector3(15, 0, 35);
-  moveTo(targetPosition, lookAtTarget);
-});
-
-let reset = document.getElementsByClassName("reset")[0];
-reset.addEventListener("click", () => {
-  cameraControls.reset(true);
-  //cameraControls.setLookAt(0, 10, 30, 0, 0, 0, true);
-  renderer.render(scene, camera);
-});
 
 //----------------------------------------------------------------- START functions
 generateLines();
