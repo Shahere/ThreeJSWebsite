@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import CameraControls from "camera-controls";
+import cubePosition from "./cubesPosition";
 
 CameraControls.install({ THREE: THREE });
 //----------------------------------------------------------------- BASIC parameters
@@ -50,7 +51,7 @@ var setcolor = 0xf02050;
 //var setcolor = 0xFF6347;
 
 scene.background = new THREE.Color(setcolor);
-scene.fog = new THREE.Fog(setcolor, 10, 16);
+scene.fog = new THREE.Fog(setcolor, 10, 50);
 //scene.fog = new THREE.FogExp2(setcolor, 0.05);
 //----------------------------------------------------------------- RANDOM Function
 function mathRandom(num = 8) {
@@ -76,7 +77,10 @@ function setTintColor() {
 function init() {
   clock = new THREE.Clock();
   var segments = 2;
-  for (var i = 1; i < 100; i++) {
+  cubePosition.forEach((element) => {
+    let x = element[0];
+    let z = element[1];
+    let y = element[2];
     var geometry = new THREE.BoxGeometry(1, 1, 1, segments, segments, segments);
     var material = new THREE.MeshStandardMaterial({
       color: setTintColor(),
@@ -105,17 +109,17 @@ function init() {
     cube.add(wfloor);
     cube.castShadow = true;
     cube.receiveShadow = true;
-    cube.rotationValue = 0.1 + Math.abs(mathRandom(8));
+    cube.rotationValue = 8 + Math.abs(mathRandom(8));
 
     //floor.scale.x = floor.scale.z = 1+mathRandom(0.33);
     floor.scale.y = 0.05; //+mathRandom(0.5);
-    cube.scale.y = 0.1 + Math.abs(mathRandom(8));
+    cube.scale.y = y;
 
     var cubeWidth = 0.9;
     cube.scale.x = cube.scale.z = cubeWidth + mathRandom(1 - cubeWidth);
     //cube.position.y = cube.scale.y / 2;
-    cube.position.x = Math.round(mathRandom());
-    cube.position.z = Math.round(mathRandom());
+    cube.position.x = x;
+    cube.position.z = z;
 
     floor.position.set(
       cube.position.x,
@@ -125,7 +129,7 @@ function init() {
 
     town.add(floor);
     town.add(cube);
-  }
+  });
   //----------------------------------------------------------------- Particular
 
   var gmaterial = new THREE.MeshToonMaterial({
