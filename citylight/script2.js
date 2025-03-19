@@ -16,7 +16,9 @@ if (window.innerWidth > 800) {
 }
 //---
 
-document.body.appendChild(renderer.domElement);
+let div1 = document.getElementsByClassName("div1")[0];
+
+div1.appendChild(renderer.domElement);
 
 window.addEventListener("resize", onWindowResize, false);
 function onWindowResize() {
@@ -59,16 +61,8 @@ function mathRandom(num = 8) {
   return numValue;
 }
 //----------------------------------------------------------------- CHANGE bluilding colors
-var setTintNum = true;
 function setTintColor() {
-  if (setTintNum) {
-    setTintNum = false;
-    var setColor = 0x000000;
-  } else {
-    setTintNum = true;
-    var setColor = 0x000000;
-  }
-  //setColor = 0x222222;
+  var setColor = 0x000000;
   return setColor;
 }
 
@@ -76,30 +70,32 @@ function setTintColor() {
 
 function init() {
   clock = new THREE.Clock();
-  var segments = 2;
   cubePosition.forEach((element) => {
     let x = element[0];
     let z = element[1];
     let y = element[2];
-    var geometry = new THREE.BoxGeometry(1, 1, 1, segments, segments, segments);
+    let c = element[3];
+    var geometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1);
     var material = new THREE.MeshStandardMaterial({
-      color: setTintColor(),
-      wireframe: false,
-      //opacity:0.9,
-      //transparent:true,
+      color: 0x000000,
+      //wireframe: false,
+      //opacity: 0.9,
+      //transparent: true,
       //roughness: 0.3,
       //metalness: 1,
       flatShading: false,
-      //shading:THREE.FlatShading,
-      side: THREE.DoubleSide,
+      //side: THREE.DoubleSide,
     });
+    if (c != undefined) {
+      material.setValues({ color: 0xffffff });
+    }
     var wmaterial = new THREE.MeshLambertMaterial({
       color: 0xffffff,
       wireframe: true,
       transparent: true,
-      opacity: 0.03,
-      side: THREE.DoubleSide /*,
-      shading:THREE.FlatShading*/,
+      opacity: 0,
+      side: THREE.DoubleSide,
+      //shading: THREE.FlatShading,
     });
 
     var cube = new THREE.Mesh(geometry, material);
@@ -111,8 +107,7 @@ function init() {
     cube.receiveShadow = true;
     cube.rotationValue = 8 + Math.abs(mathRandom(8));
 
-    //floor.scale.x = floor.scale.z = 1+mathRandom(0.33);
-    floor.scale.y = 0.05; //+mathRandom(0.5);
+    floor.scale.y = 0.5; //+mathRandom(0.5);
     cube.scale.y = y;
 
     var cubeWidth = 0.9;
@@ -276,6 +271,57 @@ var animate = function () {
   camera.lookAt(city.position);
   renderer.render(scene, camera);
 };
+
+function moveTo(targetPosition, lookAtTarget) {
+  cameraControls.reset(true);
+  cameraControls.setLookAt(
+    targetPosition.x,
+    targetPosition.y,
+    targetPosition.z,
+    lookAtTarget.x,
+    lookAtTarget.y,
+    lookAtTarget.z,
+    true // Smooth animation
+  );
+  animate();
+}
+
+//----------------------------------------------------------------- BUTTON functions
+
+let contactMe = document.getElementsByClassName("contactme")[0];
+contactMe.addEventListener("click", () => {
+  const targetPosition = new THREE.Vector3(0, 10, 5);
+  const lookAtTarget = new THREE.Vector3(5, 10, 5);
+  moveTo(targetPosition, lookAtTarget);
+});
+
+let me = document.getElementsByClassName("me")[0];
+me.addEventListener("click", () => {
+  const targetPosition = new THREE.Vector3(0, 10, 30);
+  const lookAtTarget = new THREE.Vector3(5, 10, 5);
+  moveTo(targetPosition, lookAtTarget);
+});
+
+let experience = document.getElementsByClassName("experience")[0];
+experience.addEventListener("click", () => {
+  const targetPosition = new THREE.Vector3(20, 0, -5);
+  const lookAtTarget = new THREE.Vector3(35, 5, -25);
+  moveTo(targetPosition, lookAtTarget);
+});
+
+let graduation = document.getElementsByClassName("graduation")[0];
+graduation.addEventListener("click", () => {
+  const targetPosition = new THREE.Vector3(0, 0, 50);
+  const lookAtTarget = new THREE.Vector3(15, 0, 35);
+  moveTo(targetPosition, lookAtTarget);
+});
+
+let reset = document.getElementsByClassName("reset")[0];
+reset.addEventListener("click", () => {
+  cameraControls.reset(true);
+  //cameraControls.setLookAt(0, 10, 30, 0, 0, 0, true);
+  renderer.render(scene, camera);
+});
 
 //----------------------------------------------------------------- START functions
 generateLines();
