@@ -1,10 +1,10 @@
 import * as THREE from "three";
 import CameraControls from "camera-controls";
-import cubePosition from "./cubesPosition";
-import createTextureHello from "./createTextFunctions/Hello";
-import createTextureContact from "./createTextFunctions/Contact";
-import createTextureExperience from "./createTextFunctions/Experience";
-import createTextureGraduation from "./createTextFunctions/Graduation";
+import cubePosition from "./citylight/cubesPosition";
+import createTextureHello from "./citylight/createTextFunctions/Hello";
+import createTextureContact from "./citylight/createTextFunctions/Contact";
+import createTextureExperience from "./citylight/createTextFunctions/Experience";
+import createTextureGraduation from "./citylight/createTextFunctions/Graduation";
 
 CameraControls.install({ THREE: THREE });
 
@@ -53,10 +53,7 @@ if (window.innerWidth > 800) {
   renderer.shadowMap.enabled = true;
   renderer.shadowMap.type = THREE.PCFSoftShadowMap;
   renderer.shadowMap.needsUpdate = true;
-  //renderer.toneMapping = THREE.ReinhardToneMapping;
-  //console.log(window.innerWidth);
 }
-//---
 
 let div1 = document.getElementsByClassName("div1")[0];
 
@@ -93,7 +90,6 @@ var setcolor = 0xf02050;
 
 scene.background = new THREE.Color(setcolor);
 scene.fog = new THREE.Fog(setcolor, 10, 50);
-//scene.fog = new THREE.FogExp2(setcolor, 0.05);
 //----------------------------------------------------------------- RANDOM Function
 function mathRandom(num = 8) {
   var numValue = -Math.random() * num + Math.random() * num;
