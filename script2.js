@@ -36,7 +36,7 @@ me.addEventListener("click", () => {
 let experience = document.getElementsByClassName("experience")[0];
 experience.addEventListener("click", () => {
   resetInformationBar();
-  const targetPosition = new THREE.Vector3(-12, 1.1, -8);
+  const targetPosition = new THREE.Vector3(-13, 1, -5.5);
   const lookAtTarget = new THREE.Vector3(-2, 2, -2);
   moveTo(targetPosition, lookAtTarget);
   animationInformationOn();
