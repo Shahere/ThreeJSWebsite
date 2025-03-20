@@ -42,13 +42,36 @@ body {
   overflow-x: hidden;
 }
 
+.contentExp {
+  width: 100%;
+  height: fit-content;
+}
+
 .informationsExp {
   position: absolute;
   width: 30%;
   height: 100%;
   bottom: 0;
   right: -30%;
-  background-color: aquamarine;
+  background-color: transparent;
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+
+.exp {
+  margin-bottom: 10%;
+}
+
+.titleExp {
+  margin: 0;
+}
+
+.description {
+  margin: 0;
+  font-style: italic;
 }
 
 /*Button animation*/
