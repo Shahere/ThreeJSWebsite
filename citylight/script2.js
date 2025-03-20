@@ -2,6 +2,9 @@ import * as THREE from "three";
 import CameraControls from "camera-controls";
 import cubePosition from "./cubesPosition";
 import createTextureHello from "./createTextFunctions/Hello";
+import createTextureContact from "./createTextFunctions/Contact";
+import createTextureExperience from "./createTextFunctions/Experience";
+import createTextureGraduation from "./createTextFunctions/Graduation";
 
 CameraControls.install({ THREE: THREE });
 
@@ -124,13 +127,13 @@ function init() {
           material = createTextureHello();
           break;
         case "Graduation":
-          material = createTextureHello();
+          material = createTextureGraduation();
           break;
         case "Experience":
-          material = createTextureHello();
+          material = createTextureExperience();
           break;
         case "Contact":
-          material = createTextureHello();
+          material = createTextureContact();
           break;
         default:
           break;
