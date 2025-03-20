@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import CameraControls from "camera-controls";
 import cubePosition from "./cubesPosition";
+import createTextureHello from "./createTextFunctions/Hello";
 
 CameraControls.install({ THREE: THREE });
 
@@ -95,22 +96,17 @@ function mathRandom(num = 8) {
   var numValue = -Math.random() * num + Math.random() * num;
   return numValue;
 }
-//----------------------------------------------------------------- CHANGE bluilding colors
-function setTintColor() {
-  var setColor = 0x000000;
-  return setColor;
-}
 
 //----------------------------------------------------------------- CREATE City
 
 function init() {
   clock = new THREE.Clock();
-  cubePosition.forEach((element) => {
+  cubePosition.forEach((element, key) => {
     let x = element[0];
     let z = element[1];
     let y = element[2];
     let c = element[3];
-    var geometry = new THREE.BoxGeometry(1, 1, 1, 1, 1, 1);
+    var geometry = new THREE.BoxGeometry();
     var material = new THREE.MeshStandardMaterial({
       color: 0x000000,
       //wireframe: false,
@@ -121,8 +117,24 @@ function init() {
       flatShading: false,
       //side: THREE.DoubleSide,
     });
+    var floor = new THREE.Mesh(geometry, material);
     if (c != undefined) {
-      material.setValues({ color: 0xffffff });
+      switch (c) {
+        case "Hello":
+          material = createTextureHello();
+          break;
+        case "Graduation":
+          material = createTextureHello();
+          break;
+        case "Experience":
+          material = createTextureHello();
+          break;
+        case "Contact":
+          material = createTextureHello();
+          break;
+        default:
+          break;
+      }
     }
     var wmaterial = new THREE.MeshLambertMaterial({
       color: 0xffffff,
@@ -134,7 +146,6 @@ function init() {
     });
 
     var cube = new THREE.Mesh(geometry, material);
-    var floor = new THREE.Mesh(geometry, material);
     var wfloor = new THREE.Mesh(geometry, wmaterial);
 
     cube.add(wfloor);
