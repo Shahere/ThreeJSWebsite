@@ -8,8 +8,8 @@ CameraControls.install({ THREE: THREE });
 
 let contactMe = document.getElementsByClassName("contactme")[0];
 contactMe.addEventListener("click", () => {
-  const targetPosition = new THREE.Vector3(0, 5, -2.5);
-  const lookAtTarget = new THREE.Vector3(3, 0, 3);
+  const targetPosition = new THREE.Vector3(17, 1, 0);
+  const lookAtTarget = new THREE.Vector3(4, 1, 0);
   moveTo(targetPosition, lookAtTarget);
 });
 
@@ -22,15 +22,15 @@ me.addEventListener("click", () => {
 
 let experience = document.getElementsByClassName("experience")[0];
 experience.addEventListener("click", () => {
-  const targetPosition = new THREE.Vector3(20, 0, -5);
-  const lookAtTarget = new THREE.Vector3(0, 0, 50);
+  const targetPosition = new THREE.Vector3(-12, 1.1, -8);
+  const lookAtTarget = new THREE.Vector3(-2, 2, -2);
   moveTo(targetPosition, lookAtTarget);
 });
 
 let graduation = document.getElementsByClassName("graduation")[0];
 graduation.addEventListener("click", () => {
-  const targetPosition = new THREE.Vector3(0, 0, 50);
-  const lookAtTarget = new THREE.Vector3(15, 50, 35);
+  const targetPosition = new THREE.Vector3(4.2, 1.1, 5.8);
+  const lookAtTarget = new THREE.Vector3(-1, 1.5, 2);
   moveTo(targetPosition, lookAtTarget);
 });
 
@@ -185,10 +185,10 @@ function init() {
     opacity: 0.9,
     transparent: true,
   });
-  var pgeometry = new THREE.PlaneGeometry(60, 60);
+  var pgeometry = new THREE.PlaneGeometry(580, 580); //Dimension de la grille en dessous
   var pelement = new THREE.Mesh(pgeometry, pmaterial);
   pelement.rotation.x = (-90 * Math.PI) / 180;
-  pelement.position.y = -0.001;
+  pelement.position.y = 0;
   pelement.receiveShadow = true;
 
   city.add(pelement);
@@ -208,8 +208,8 @@ var ambientLight = new THREE.AmbientLight(0xffffff, 4);
 var lightFront = new THREE.SpotLight(0xffffff, 20, 10);
 var lightBack = new THREE.PointLight(0xffffff, 0.5);
 
-var spotLightHelper = new THREE.SpotLightHelper(lightFront);
-//scene.add( spotLightHelper );
+//var spotLightHelper = new THREE.SpotLightHelper(lightFront);
+//scene.add(spotLightHelper);
 
 lightFront.rotation.x = (45 * Math.PI) / 180;
 lightFront.rotation.z = (-45 * Math.PI) / 180;
@@ -230,7 +230,7 @@ city.add(smoke);
 city.add(town);
 
 //----------------------------------------------------------------- GRID Helper
-var gridHelper = new THREE.GridHelper(60, 120, 0xff0000, 0x000000);
+var gridHelper = new THREE.GridHelper(120, 240, 0xff0000, 0x000000);
 city.add(gridHelper);
 
 //----------------------------------------------------------------- LINES world
@@ -299,6 +299,11 @@ var animate = function () {
   const delta = clock.getDelta();
   const updated = cameraControls.update(delta);
 
+  if (cameraControls.getPosition().y <= 1) {
+    let position = cameraControls.getPosition();
+    cameraControls.setPosition(position.x, 1, position.z, false);
+  }
+
   smoke.rotation.y += 0.01;
   smoke.rotation.x += 0.01;
 
@@ -316,7 +321,6 @@ function moveTo(targetPosition, lookAtTarget) {
     lookAtTarget.z,
     true // Smooth animation
   );
-  animate();
 }
 
 //----------------------------------------------------------------- START functions
