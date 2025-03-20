@@ -6,12 +6,20 @@ import createTextureContact from "./citylight/createTextFunctions/Contact";
 import createTextureExperience from "./citylight/createTextFunctions/Experience";
 import createTextureGraduation from "./citylight/createTextFunctions/Graduation";
 
+import {
+  animationInformationOff,
+  animationInformationOn,
+} from "./citylight/animationInformation";
 CameraControls.install({ THREE: THREE });
 
 //----------------------------------------------------------------- BUTTON functions
+function resetInformationBar() {
+  animationInformationOff();
+}
 
 let contactMe = document.getElementsByClassName("contactme")[0];
 contactMe.addEventListener("click", () => {
+  resetInformationBar();
   const targetPosition = new THREE.Vector3(17, 1, 0);
   const lookAtTarget = new THREE.Vector3(4, 1, 0);
   moveTo(targetPosition, lookAtTarget);
@@ -19,6 +27,7 @@ contactMe.addEventListener("click", () => {
 
 let me = document.getElementsByClassName("me")[0];
 me.addEventListener("click", () => {
+  resetInformationBar();
   const targetPosition = new THREE.Vector3(0, 10, 30);
   const lookAtTarget = new THREE.Vector3(0, 0, 0);
   moveTo(targetPosition, lookAtTarget);
@@ -26,13 +35,16 @@ me.addEventListener("click", () => {
 
 let experience = document.getElementsByClassName("experience")[0];
 experience.addEventListener("click", () => {
+  resetInformationBar();
   const targetPosition = new THREE.Vector3(-12, 1.1, -8);
   const lookAtTarget = new THREE.Vector3(-2, 2, -2);
   moveTo(targetPosition, lookAtTarget);
+  animationInformationOn();
 });
 
 let graduation = document.getElementsByClassName("graduation")[0];
 graduation.addEventListener("click", () => {
+  resetInformationBar();
   const targetPosition = new THREE.Vector3(4.2, 1.1, 5.8);
   const lookAtTarget = new THREE.Vector3(-1, 1.5, 2);
   moveTo(targetPosition, lookAtTarget);
