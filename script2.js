@@ -39,7 +39,7 @@ experience.addEventListener("click", () => {
   const targetPosition = new THREE.Vector3(-13, 1, -5.5);
   const lookAtTarget = new THREE.Vector3(-2, 2, -2);
   moveTo(targetPosition, lookAtTarget);
-  animationInformationOn();
+  //animationInformationOn();
 });
 
 let graduation = document.getElementsByClassName("graduation")[0];
