@@ -74,6 +74,57 @@ body {
   font-style: italic;
 }
 
+.iconShow {
+  position: absolute;
+  top: 0;
+  right: -5%;
+  color: #ffffff;
+}
+
+.iconArrowClose,
+.iconArrowOpen {
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  position: absolute;
+}
+
+.iconShow {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 5%;
+  height: 5%;
+  z-index: 999;
+}
+
+.arrowInfo {
+  width: 100%;
+  height: 100%;
+}
+
+/* Affichage de l'icône d'ouverture par défaut */
+.iconArrowOpen {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* L'icône de fermeture est cachée au départ */
+.iconArrowClose {
+  opacity: 0;
+  visibility: hidden;
+}
+
+/* Quand le menu est ouvert, on inverse */
+.iconShow.open .iconArrowOpen {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.iconShow.open .iconArrowClose {
+  opacity: 1;
+  visibility: visible;
+}
+
+
 /*Button animation*/
 
 .box {
