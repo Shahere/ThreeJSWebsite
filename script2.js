@@ -9,7 +9,7 @@ import createTextureGraduation from "./citylight/createTextFunctions/Graduation"
 import {
   animationInformationOff,
   animationInformationOn,
-} from "./citylight/animationInformation";
+} from "./citylight/animationInformation.js";
 CameraControls.install({ THREE: THREE });
 
 //----------------------------------------------------------------- BUTTON functions

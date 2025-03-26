@@ -44,7 +44,7 @@ function getCanvaNotSquare() {
   const ctx = canvas.getContext("2d");
 
   // Set canvas size
-  canvas.width = 256;
+  canvas.width = 220;
   canvas.height = 1024;
 
   // Fill background
