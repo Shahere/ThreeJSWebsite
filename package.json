@@ -4,13 +4,16 @@
   "main": "script.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "vite build"
+    "build": "vite build",
+    "start": "npx vite",
+    "startHost": "vite --host 0.0.0.0"
   },
   "author": "",
   "license": "ISC",
   "description": "",
   "dependencies": {
     "camera-controls": "^2.9.0",
-    "three": "^0.169.0"
+    "three": "^0.169.0",
+    "vite": "^6.2.3"
   }
 }
