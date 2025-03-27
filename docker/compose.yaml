@@ -1,10 +1,11 @@
 version: "3.8"
 
 services:
-  city3d:
+  web:
     image: city3d:latest
     ports:
-      - "8080:80"
+      - "5173:5173"
     volumes:
-      - ..:/usr/share/nginx/html
-    restart: always
+      - ..:/app
+      - /app/node_modules
+    command: ["npm", "run", "startHost"]

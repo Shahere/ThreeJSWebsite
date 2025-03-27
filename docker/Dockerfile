@@ -1,29 +1,20 @@
-# Stage 1: Build the Vite app
-FROM node:20 AS builder
+# Utiliser une image Node.js légère
+FROM node:20-alpine 
 
+# Définir le répertoire de travail
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package.json package-lock.json ./
+# Copier package.json et package-lock.json depuis la racine
+COPY ../package*.json ./
+
+# Installer les dépendances
 RUN npm install
-RUN npm install --save-dev vite
 
-# Copy all files (including index.html in root)
-COPY . .
+# Copier le reste des fichiers depuis la racine
+COPY ../ ./
 
-# Build the Vite project
-RUN npm run build
+# Exposer le port utilisé par Vite (par défaut 5173)
+EXPOSE 5173
 
-# Stage 2: Serve with Nginx
-FROM nginx:alpine
-
-# Copy build output to Nginxs HTML directory
-COPY --from=builder /app/dist /usr/share/nginx/html
-
-# Copy a custom Nginx config file
-COPY docker/nginx.conf /etc/nginx/conf.d/default.conf
-
-# Expose the port
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+# Lancer l’application
+CMD ["npm", "start"]
